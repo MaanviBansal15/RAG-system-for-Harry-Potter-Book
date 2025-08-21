@@ -13,7 +13,7 @@ flowchart LR
     
     %% Vector Database
     B --> C[ FAISS Vector Store]
-    C --> C1[Similarity Search-Top-k retrieva)]
+    C --> C1 [Similarity Search-Top-k retrieval]
     
     %% Retriever
     C1 --> D[ Retriever - LangChain]
