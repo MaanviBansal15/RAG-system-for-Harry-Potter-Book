@@ -8,20 +8,20 @@ This project demonstrates how to build a production-ready pipeline for document 
 ```mermaid
 flowchart LR
     %% Document Ingestion
-    A[ Upload Docs] --> A1[ Text Splitter\nChunking into passages]
+    A[ Upload Docs] --> A1[ Text Splitter Chunking into passages]
     A1 --> B[ Hugging Face Embeddings -sentence-transformers/all-MiniLM-L6-v2]
     
     %% Vector Database
-    B --> C[🗄 FAISS Vector Store]
-    C --> C1[( Similarity Search\nTop-k retrieval)]
+    B --> C[ FAISS Vector Store]
+    C --> C1[Similarity Search-Top-k retrieva)]
     
     %% Retriever
-    C1 --> D[⚙ Retriever - LangChain]
+    C1 --> D[ Retriever - LangChain]
     D --> D1[ Relevant Chunks]
     
     %% Workflow
     D1 --> E[ LangGraph Workflow]
-    E --> E1[ Routing\n(choose tools, handle branches)]
+    E --> E1[ Routing choose tools, handle branches]
     E1 --> E2[ Combine context with query]
     
     %% LLM Interaction
