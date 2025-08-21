@@ -6,47 +6,36 @@ This project demonstrates how to build a production-ready pipeline for document 
 ## 🏗️ Architecture Overview
 
 ```mermaid
-```mermaid
-flowchart TD
-    %% -------------------------------
-    %% INPUT STAGE
-    %% -------------------------------
-    A[ Upload Documents] --> B
-
-    %% -------------------------------
-    %% EMBEDDING STAGE
-    %% -------------------------------
-    B[ Hugging Face Embeddings <br/> (Model: all-MiniLM-L6-v2) <br/> • Converts text → dense vectors <br/> • Dimension: 384] --> C
-
-    %% -------------------------------
-    %% VECTOR DATABASE
-    %% -------------------------------
-    C[ FAISS Vector Store <br/> • Stores embeddings in index <br/> • Supports Approximate NN search <br/> • Metadata + text stored] --> D
-
-    %% -------------------------------
-    %% RETRIEVAL STAGE
-    %% -------------------------------
-    D[ Retriever - LangChain <br/> • K-Nearest Neighbor (Top-k) <br/> • Semantic search over FAISS <br/> • Returns relevant chunks] --> E
-
-    %% -------------------------------
-    %% WORKFLOW STAGE
-    %% -------------------------------
-    E[⚙ LangGraph Workflow <br/> • Orchestrates retrieval + LLM <br/> • Defines nodes + edges <br/> • Supports memory/state mgmt] --> F
-
-    %% -------------------------------
-    %% LLM STAGE
-    %% -------------------------------
-    F[ GPT-4o via OpenRouter <br/> • Input: Context + Query <br/> • Output: Generated Answer <br/> • Handles reasoning + synthesis] --> G
-
-    %% -------------------------------
-    %% FINAL OUTPUT
-    %% -------------------------------
-    G[ Final Answer <br/> • Human-readable response <br/> • References grounded in docs] --> H
-
-    %% -------------------------------
-    %% EVALUATION
-    %% -------------------------------
-    H[ RAGAS Evaluation <br/> • Evaluates: <br/>   - Faithfulness <br/>   - Answer Relevance <br/>   - Context Precision <br/>   - Recall <br/> • Scores for pipeline tuning]
+flowchart LR
+    %% Document Ingestion
+    A[ Upload Docs] --> A1[ Text Splitter\nChunking into passages]
+    A1 --> B[ Hugging Face Embeddings\n(sentence-transformers/all-MiniLM-L6-v2)]
+    
+    %% Vector Database
+    B --> C[🗄 FAISS Vector Store]
+    C --> C1[( Similarity Search\nTop-k retrieval)]
+    
+    %% Retriever
+    C1 --> D[⚙ Retriever - LangChain]
+    D --> D1[ Relevant Chunks]
+    
+    %% Workflow
+    D1 --> E[ LangGraph Workflow]
+    E --> E1[ Routing\n(choose tools, handle branches)]
+    E1 --> E2[ Combine context with query]
+    
+    %% LLM Interaction
+    E2 --> F[ GPT-4o via OpenRouter]
+    F --> F1[ Generate Contextual Answer]
+    
+    %% Output
+    F1 --> G[ Final Answer to User]
+    
+    %% Evaluation
+    G --> H[RAGAS Evaluation]
+    H --> H1[ Faithfulness Check]
+    H --> H2[ Answer Relevance]
+    H --> H3[ Context Recall]
 
 ```
 --------------------
