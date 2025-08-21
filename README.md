@@ -48,7 +48,8 @@ flowchart TD
     %% -------------------------------
     H[ RAGAS Evaluation <br/> • Evaluates: <br/>   - Faithfulness <br/>   - Answer Relevance <br/>   - Context Precision <br/>   - Recall <br/> • Scores for pipeline tuning]
 
-
+```
+--------------------
 ## 🔑 Key Components
 
 * **LangChain** – Builds the RAG pipeline (retrieval + generation).
