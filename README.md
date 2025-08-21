@@ -9,7 +9,7 @@ This project demonstrates how to build a production-ready pipeline for document 
 flowchart LR
     %% Document Ingestion
     A[ Upload Docs] --> A1[ Text Splitter\nChunking into passages]
-    A1 --> B[ Hugging Face Embeddings\n(sentence-transformers/all-MiniLM-L6-v2)]
+    A1 --> B[ Hugging Face Embeddings -sentence-transformers/all-MiniLM-L6-v2]
     
     %% Vector Database
     B --> C[🗄 FAISS Vector Store]
